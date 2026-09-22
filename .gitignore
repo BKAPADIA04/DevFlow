@@ -22,6 +22,7 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+scripts/
 
 # Logs
 *.log
