@@ -67,11 +67,10 @@ fields, and one worked example of every edge live in
 | CIRun | TESTS → Commit |
 | Deployment | MAY_CAUSE → Incident |
 
-That's 27 directed edges over 18 distinct relationship types (the source
-doc's header says "24" — see §8). Two details that bite when writing Cypher
-or the loader: `Commit` is keyed by `hash`, every other node by `id`; and
-`Team OWNS File` / `File OWNED_BY Team` are both real edges, so the loader
-must write both directions.
+That's 27 directed edges over 18 distinct relationship types. Two details
+that bite when writing Cypher or the loader: `Commit` is keyed by `hash`,
+every other node by `id`; and `Team OWNS File` / `File OWNED_BY Team` are
+both real edges, so the loader must write both directions.
 
 Do not make ad hoc additions to the entity/relationship set without first
 updating `MDs/DevFlow-Relationships.md` — it is the locked reference every
@@ -212,10 +211,6 @@ rationale notes:
   moved to a cloud LLM API (`MDs/DevFlow-TechStack.md`). The mitigations
   described there (few-shot examples, retry-once-on-failure) are still good
   practice, just less critical than originally framed.
-- **Relationship count**: `DevFlow-Relationships.md` says "24 relationships"
-  but lists 27 edges over 18 distinct types, and `DevFlow-Cypher-LLM.md`'s
-  whitelist check says "not in our 24". The generation prompt's 18-type list
-  is correct — build the validator whitelist from that, not from "24".
 - **ID conventions disagree**: the schema gives `File.id` as
   `repo-devflow-core:src/auth.py` and keys `Commit` by `hash` (`a1b2c3d`), but
   the sample data and every Cypher example use `file-auth` and

@@ -27,7 +27,7 @@ Review, CIRun, Deployment, Incident, Permission
 | Environment | `Deployment.environment` (property) | Only ever filtered on |
 | Role | Merged into Permission | Splitting added a hop, no extra value |
 
-## Relationships (lines) — 24 total
+## Relationships (lines) — 27 total, 18 distinct types
 
 ```text
 Repository  CONTAINS        Commit
@@ -77,16 +77,16 @@ Deployment  MAY_CAUSE       Incident
 | CI failure investigation | CIRun.status + which Commits it TESTS |
 | Deployment impact analysis | Deployment.environment + MAY_CAUSE → Incident |
 | Incident root-cause | Incident ← Deployment ← Commit ← Developer |
-| Permission / approval reasoning | Developer/Team → HAS_PERMISSION → Repository |
+| Permission / approval reasoning | (Developer\|Team) → HAS_PERMISSION → Permission ← PROTECTED_BY ← Repository |
 | Finding similar past changes | File ← MODIFIES ← Commit (reverse lookup) |
 | Impact of a proposed change | File ownership + Incident history + review reqs |
 
 ## Status
 
-This trimmed table (11 entities, 24 relationships) is now locked as the
-final schema. Any future phase (data generation, graph loader, query
-functions, MCP tools) should reference this exact table — no ad hoc
-additions without updating this file first.
+This trimmed table (11 entities, 27 relationships across 18 distinct
+types) is now locked as the final schema. Any future phase (data
+generation, graph loader, query functions, MCP tools) should reference
+this exact table — no ad hoc additions without updating this file first.
 
 ---
 
@@ -286,7 +286,7 @@ Permission:
 
 ## Example relationship instances
 
-Each of the 24 relationships shown with one concrete example from the
+Each of the 27 relationships shown with one concrete example from the
 sample data above.
 
 | Relationship | Example |

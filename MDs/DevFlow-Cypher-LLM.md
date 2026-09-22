@@ -118,7 +118,7 @@ the fallback (flat text search).
    Parse out every node label (":Label") and relationship type
    ("[:REL_TYPE]") referenced in the query.
    Reject if any label is not in our 11, or any relationship type
-   is not in our 24.
+   is not in our 18.
 
 3. SYNTAX / EXECUTABILITY CHECK
    Run the query through Neo4j's EXPLAIN first (does not execute,
@@ -157,7 +157,7 @@ the failure reason and falls back to flat text search.
 
 ## 6. Why the schema constraint matters more than it looks
 
-Giving the LLM the exact list of 11 labels and 24 relationships isn't
+Giving the LLM the exact list of 11 labels and 18 relationship types isn't
 just a nice-to-have prompt detail — it's the main thing keeping
 generation safe *before* validation even runs. An LLM with no
 constraints might invent a plausible-sounding but nonexistent
