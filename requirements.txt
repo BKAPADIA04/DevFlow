@@ -1,0 +1,22 @@
+langgraph
+langgraph-checkpoint-postgres
+psycopg[binary,pool]
+langchain
+langchain_openai
+langchain-google-genai
+ddgs
+mcp<2
+langchain-mcp-adapters
+python-dotenv
+fastapi
+uvicorn
+python-multipart
+langchain-chroma
+langchain-text-splitters
+pgvector
+pypdf
+python-docx
+
+# dev / test
+pytest
+pytest-asyncio
