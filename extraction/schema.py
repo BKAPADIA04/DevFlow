@@ -92,13 +92,26 @@ ID_FIELD_BY_TYPE: dict[EntityType, str] = {
 }
 
 
+class EntityProperty(BaseModel):
+    """One key/value property on an extracted entity.
+
+    A plain `dict[str, str]` here would need JSON Schema's
+    `additionalProperties`, which Gemini's native structured-output mode
+    (used by extraction/llm.py's pooled model) rejects in Developer API
+    mode — so properties are a flat list of key/value pairs instead.
+    """
+
+    key: str
+    value: str
+
+
 class ExtractedEntity(BaseModel):
     """One node pulled from the input text."""
 
     id: str = Field(description="The entity's id (or hash, for Commit)")
     type: EntityType
-    properties: dict[str, str] = Field(
-        default_factory=dict,
+    properties: list[EntityProperty] = Field(
+        default_factory=list,
         description="Any other properties mentioned in the text (name, path, "
         "status, severity, etc.) — only what's actually stated, no guessing.",
     )
