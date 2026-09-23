@@ -1,0 +1,118 @@
+{
+  "entities": [
+    { "id": "repo-devflow-core", "type": "Repository", "properties": [
+      { "key": "name", "value": "devflow-core" },
+      { "key": "visibility", "value": "private" }
+    ]},
+    { "id": "team-platform", "type": "Team", "properties": [
+      { "key": "name", "value": "Platform" }
+    ]},
+    { "id": "team-webhooks", "type": "Team", "properties": [
+      { "key": "name", "value": "Webhooks" }
+    ]},
+    { "id": "src/auth.py", "type": "File", "properties": [
+      { "key": "path", "value": "src/auth.py" }
+    ]},
+    { "id": "src/webhook_sender.py", "type": "File", "properties": [
+      { "key": "path", "value": "src/webhook_sender.py" }
+    ]},
+    { "id": "dev-maria", "type": "Developer", "properties": [
+      { "key": "name", "value": "Maria Chen" }
+    ]},
+    { "id": "dev-dan", "type": "Developer", "properties": [
+      { "key": "name", "value": "Dan Lee" }
+    ]},
+    { "id": "dev-sam", "type": "Developer", "properties": [
+      { "key": "name", "value": "Sam Okafor" }
+    ]},
+    { "id": "PERM-01", "type": "Permission", "properties": [
+      { "key": "role_name", "value": "admin" },
+      { "key": "grants", "value": "merge_pr, approve_review" }
+    ]},
+    { "id": "PR-142", "type": "PullRequest", "properties": [
+      { "key": "title", "value": "Fix token refresh bug" },
+      { "key": "status", "value": "merged" }
+    ]},
+    { "id": "commit-a1b2c3d", "type": "Commit", "properties": [
+      { "key": "message", "value": "Fix token refresh bug" }
+    ]},
+    { "id": "REV-501", "type": "Review", "properties": [
+      { "key": "result", "value": "changes_requested" }
+    ]},
+    { "id": "CI-901", "type": "CIRun", "properties": [
+      { "key": "status", "value": "failed" }
+    ]},
+    { "id": "DEPLOY-034", "type": "Deployment", "properties": [
+      { "key": "environment", "value": "production" }
+    ]},
+    { "id": "INC-089", "type": "Incident", "properties": [
+      { "key": "severity", "value": "SEV2" }
+    ]},
+    { "id": "PR-143", "type": "PullRequest", "properties": [
+      { "key": "title", "value": "Add webhook retry logic" },
+      { "key": "status", "value": "merged" }
+    ]},
+    { "id": "commit-e4f5g6h", "type": "Commit", "properties": [
+      { "key": "message", "value": "Add webhook retry logic" }
+    ]},
+    { "id": "CI-902", "type": "CIRun", "properties": [
+      { "key": "status", "value": "passed" }
+    ]},
+    { "id": "DEPLOY-035", "type": "Deployment", "properties": [
+      { "key": "environment", "value": "staging" }
+    ]}
+  ],
+  "relationships": [
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "CONTAINS", "target_id": "commit-a1b2c3d", "target_type": "Commit" },
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "CONTAINS", "target_id": "commit-e4f5g6h", "target_type": "Commit" },
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "CONTAINS", "target_id": "src/auth.py", "target_type": "File" },
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "CONTAINS", "target_id": "src/webhook_sender.py", "target_type": "File" },
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "CONTAINS", "target_id": "PR-142", "target_type": "PullRequest" },
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "CONTAINS", "target_id": "PR-143", "target_type": "PullRequest" },
+    { "source_id": "repo-devflow-core", "source_type": "Repository", "relation": "PROTECTED_BY", "target_id": "PERM-01", "target_type": "Permission" },
+
+    { "source_id": "team-platform", "source_type": "Team", "relation": "OWNS", "target_id": "repo-devflow-core", "target_type": "Repository" },
+    { "source_id": "dev-maria", "source_type": "Developer", "relation": "OWNS", "target_id": "repo-devflow-core", "target_type": "Repository" },
+    { "source_id": "dev-maria", "source_type": "Developer", "relation": "CREATES", "target_id": "PR-142", "target_type": "PullRequest" },
+    { "source_id": "dev-sam", "source_type": "Developer", "relation": "CREATES", "target_id": "PR-143", "target_type": "PullRequest" },
+    { "source_id": "dev-maria", "source_type": "Developer", "relation": "AUTHORED", "target_id": "commit-a1b2c3d", "target_type": "Commit" },
+    { "source_id": "dev-sam", "source_type": "Developer", "relation": "AUTHORED", "target_id": "commit-e4f5g6h", "target_type": "Commit" },
+    { "source_id": "dev-dan", "source_type": "Developer", "relation": "PERFORMS", "target_id": "REV-501", "target_type": "Review" },
+    { "source_id": "dev-maria", "source_type": "Developer", "relation": "BELONGS_TO", "target_id": "team-platform", "target_type": "Team" },
+    { "source_id": "dev-dan", "source_type": "Developer", "relation": "BELONGS_TO", "target_id": "team-platform", "target_type": "Team" },
+    { "source_id": "dev-sam", "source_type": "Developer", "relation": "BELONGS_TO", "target_id": "team-webhooks", "target_type": "Team" },
+    { "source_id": "dev-dan", "source_type": "Developer", "relation": "HAS_PERMISSION", "target_id": "PERM-01", "target_type": "Permission" },
+
+    { "source_id": "team-platform", "source_type": "Team", "relation": "OWNS", "target_id": "src/auth.py", "target_type": "File" },
+    { "source_id": "team-webhooks", "source_type": "Team", "relation": "OWNS", "target_id": "src/webhook_sender.py", "target_type": "File" },
+    { "source_id": "team-platform", "source_type": "Team", "relation": "HAS_PERMISSION", "target_id": "PERM-01", "target_type": "Permission" },
+
+    { "source_id": "PR-142", "source_type": "PullRequest", "relation": "MODIFIES", "target_id": "src/auth.py", "target_type": "File" },
+    { "source_id": "PR-143", "source_type": "PullRequest", "relation": "MODIFIES", "target_id": "src/webhook_sender.py", "target_type": "File" },
+    { "source_id": "PR-142", "source_type": "PullRequest", "relation": "CONTAINS", "target_id": "commit-a1b2c3d", "target_type": "Commit" },
+    { "source_id": "PR-143", "source_type": "PullRequest", "relation": "CONTAINS", "target_id": "commit-e4f5g6h", "target_type": "Commit" },
+    { "source_id": "PR-142", "source_type": "PullRequest", "relation": "RECEIVES", "target_id": "REV-501", "target_type": "Review" },
+    { "source_id": "PR-142", "source_type": "PullRequest", "relation": "TRIGGERS", "target_id": "CI-901", "target_type": "CIRun" },
+    { "source_id": "PR-143", "source_type": "PullRequest", "relation": "TRIGGERS", "target_id": "CI-902", "target_type": "CIRun" },
+    { "source_id": "PR-142", "source_type": "PullRequest", "relation": "TRIGGERS", "target_id": "DEPLOY-034", "target_type": "Deployment" },
+    { "source_id": "PR-143", "source_type": "PullRequest", "relation": "TRIGGERS", "target_id": "DEPLOY-035", "target_type": "Deployment" },
+    { "source_id": "PR-142", "source_type": "PullRequest", "relation": "RELATED_TO", "target_id": "INC-089", "target_type": "Incident" },
+
+    { "source_id": "commit-a1b2c3d", "source_type": "Commit", "relation": "PARENT_OF", "target_id": "commit-e4f5g6h", "target_type": "Commit" },
+    { "source_id": "commit-a1b2c3d", "source_type": "Commit", "relation": "MODIFIES", "target_id": "src/auth.py", "target_type": "File" },
+    { "source_id": "commit-e4f5g6h", "source_type": "Commit", "relation": "MODIFIES", "target_id": "src/webhook_sender.py", "target_type": "File" },
+    { "source_id": "commit-a1b2c3d", "source_type": "Commit", "relation": "DEPLOYED_AS", "target_id": "DEPLOY-034", "target_type": "Deployment" },
+    { "source_id": "commit-e4f5g6h", "source_type": "Commit", "relation": "DEPLOYED_AS", "target_id": "DEPLOY-035", "target_type": "Deployment" },
+
+    { "source_id": "src/auth.py", "source_type": "File", "relation": "OWNED_BY", "target_id": "team-platform", "target_type": "Team" },
+    { "source_id": "src/webhook_sender.py", "source_type": "File", "relation": "OWNED_BY", "target_id": "team-webhooks", "target_type": "Team" },
+    { "source_id": "src/auth.py", "source_type": "File", "relation": "OWNED_BY", "target_id": "dev-maria", "target_type": "Developer" },
+    { "source_id": "src/auth.py", "source_type": "File", "relation": "REQUIRES_REVIEW_FROM", "target_id": "team-platform", "target_type": "Team" },
+    { "source_id": "src/webhook_sender.py", "source_type": "File", "relation": "REQUIRES_REVIEW_FROM", "target_id": "team-webhooks", "target_type": "Team" },
+
+    { "source_id": "CI-901", "source_type": "CIRun", "relation": "TESTS", "target_id": "commit-a1b2c3d", "target_type": "Commit" },
+    { "source_id": "CI-902", "source_type": "CIRun", "relation": "TESTS", "target_id": "commit-e4f5g6h", "target_type": "Commit" },
+
+    { "source_id": "DEPLOY-034", "source_type": "Deployment", "relation": "MAY_CAUSE", "target_id": "INC-089", "target_type": "Incident" }
+  ]
+}
