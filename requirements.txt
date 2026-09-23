@@ -15,6 +15,7 @@ python-multipart
 langchain-chroma
 langchain-text-splitters
 pgvector
+neo4j
 pypdf
 python-docx
 
