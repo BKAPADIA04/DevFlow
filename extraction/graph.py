@@ -11,6 +11,7 @@ from typing import TypedDict
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph import END, StateGraph
+from langsmith import traceable
 
 from extraction.llm import get_llm
 from extraction.prompts import SYSTEM_PROMPT, build_retry_feedback
@@ -102,6 +103,7 @@ def build_extraction_graph():
     return graph.compile()
 
 
+@traceable(name="devflow_extraction")
 def extract(text: str) -> ExtractionResult:
     """Runs the extraction pipeline on one piece of input text."""
 

@@ -9,6 +9,17 @@ knows how to drive the raw google-genai client, not a LangChain chat
 model. The public shape graph.py calls against —
 `get_llm().with_structured_output(Model).invoke(messages)` — is kept the
 same either way.
+
+LangSmith tracing: enabled by setting LANGSMITH_TRACING=true,
+LANGSMITH_API_KEY, and (optionally) LANGSMITH_PROJECT in `.env` — nothing
+else to configure. `.env` is loaded at import time (not lazily on first
+LLM call) specifically so those vars are in os.environ before
+extraction/graph.py builds and invokes the LangGraph graph, since
+LangGraph's own run needs LANGSMITH_TRACING set before it starts to be
+captured as the trace root. The actual Gemini call bypasses LangChain
+(see module docstring above), so it's wrapped in `@traceable` below to
+show up as its own span instead of being an opaque black box inside the
+"extract" node.
 """
 
 from __future__ import annotations
@@ -21,6 +32,7 @@ from typing import TypeVar
 from dotenv import load_dotenv
 from google.genai import types
 from langchain_core.messages import BaseMessage, SystemMessage
+from langsmith import traceable
 from pydantic import BaseModel
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "helper"))
@@ -28,25 +40,26 @@ from gemini_key_pool import GeminiKeyPool  # noqa: E402
 
 DEFAULT_MODEL = "gemini-3.6-flash"
 
-_ENV_LOADED = False
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
 _POOL: GeminiKeyPool | None = None
 
 SchemaT = TypeVar("SchemaT", bound=BaseModel)
 
 
-def _ensure_env_loaded() -> None:
-    global _ENV_LOADED
-    if not _ENV_LOADED:
-        load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-        _ENV_LOADED = True
-
-
 def _get_pool() -> GeminiKeyPool:
     global _POOL
-    _ensure_env_loaded()
     if _POOL is None:
         _POOL = GeminiKeyPool()
     return _POOL
+
+
+@traceable(run_type="llm", name="gemini_pool_generate_content")
+def _generate(
+    pool: GeminiKeyPool, model: str, contents: str, config: types.GenerateContentConfig
+) -> str:
+    response = pool.generate_content(model=model, contents=contents, config=config)
+    return response.text
 
 
 def _split_messages(messages: list[BaseMessage]) -> tuple[str | None, str]:
@@ -77,10 +90,8 @@ class _StructuredGeminiModel:
             response_mime_type="application/json",
             response_schema=self._schema,
         )
-        response = self._pool.generate_content(
-            model=self._model, contents=contents, config=config
-        )
-        return self._schema.model_validate(json.loads(response.text))
+        text = _generate(self._pool, self._model, contents, config)
+        return self._schema.model_validate(json.loads(text))
 
 
 class PooledGeminiLLM:

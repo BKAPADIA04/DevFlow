@@ -1,4 +1,5 @@
 langgraph
+langsmith
 langgraph-checkpoint-postgres
 psycopg[binary,pool]
 langchain
