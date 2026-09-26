@@ -10,7 +10,7 @@ import itertools
 import os
 import threading
 import time
-from typing import Any
+from typing import Any, Callable
 
 from google import genai
 from google.genai import errors
@@ -71,8 +71,11 @@ class GeminiKeyPool:
             # every key is cooling down: wait for whichever frees up soonest
             return min(self._states, key=lambda s: s.cooldown_until)
 
-    def generate_content(self, *, model: str = DEFAULT_MODEL, contents: Any, **kwargs: Any):
-        """Calls generateContent, rotating to the next key on 429/5xx errors."""
+    def _with_rotation(self, call: Callable[[genai.Client], Any]) -> Any:
+        """Runs `call` against clients keyed off the pool, rotating to the
+        next key on 429/5xx errors. Shared by generate_content and
+        embed_content so both get identical failover behavior.
+        """
         last_error: Exception | None = None
         attempts = len(self._states) * 2
 
@@ -83,9 +86,7 @@ class GeminiKeyPool:
 
             client = self._client_for(state.key)
             try:
-                response = client.models.generate_content(
-                    model=model, contents=contents, **kwargs
-                )
+                response = call(client)
             except errors.APIError as exc:
                 last_error = exc
                 if exc.code == 429 or exc.code >= 500:
@@ -99,6 +100,24 @@ class GeminiKeyPool:
         raise RuntimeError(
             f"All {len(self._states)} Gemini API keys are rate-limited or failing"
         ) from last_error
+
+    def generate_content(self, *, model: str = DEFAULT_MODEL, contents: Any, **kwargs: Any):
+        """Calls generateContent, rotating to the next key on 429/5xx errors."""
+        return self._with_rotation(
+            lambda client: client.models.generate_content(
+                model=model, contents=contents, **kwargs
+            )
+        )
+
+    def embed_content(self, *, model: str, contents: list[str], **kwargs: Any):
+        """Calls embedContent (batched over `contents`), rotating to the
+        next key on 429/5xx errors.
+        """
+        return self._with_rotation(
+            lambda client: client.models.embed_content(
+                model=model, contents=contents, **kwargs
+            )
+        )
 
 
 def _load_keys_from_env() -> list[str]:
