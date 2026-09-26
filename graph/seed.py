@@ -18,7 +18,7 @@ import json
 from pathlib import Path
 
 from extraction.schema import ExtractionResult
-from graph.constraints import ensure_constraints
+from graph.constraints import ensure_constraints, ensure_vector_indexes
 from graph.loader import load_extraction_result
 
 SEED_FILE = Path(__file__).resolve().parent.parent / "data" / "seed_graph.json"
@@ -29,6 +29,7 @@ def main() -> None:
     result = ExtractionResult.model_validate(data)
 
     ensure_constraints()
+    ensure_vector_indexes()
     load_extraction_result(result)
 
     print(

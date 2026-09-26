@@ -13,7 +13,7 @@ import sys
 
 from extraction.cli import _read_input
 from extraction.graph import extract
-from graph.constraints import ensure_constraints
+from graph.constraints import ensure_constraints, ensure_vector_indexes
 from graph.loader import load_extraction_result
 
 
@@ -27,6 +27,7 @@ def main() -> None:
     print(json.dumps(result.model_dump(mode="json"), indent=2))
 
     ensure_constraints()
+    ensure_vector_indexes()
     load_extraction_result(result)
     print(
         f"Loaded {len(result.entities)} entities and "
