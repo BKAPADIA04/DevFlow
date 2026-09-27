@@ -1,0 +1,159 @@
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+header {
+  margin-bottom: 1.5rem;
+}
+
+header p {
+  color: #888;
+  margin-top: 0.25rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(400px, 1.4fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.panel {
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  background: #1a1a1a;
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.panel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.panel-form textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.panel-form button {
+  align-self: flex-start;
+}
+
+.error {
+  color: #f87171;
+}
+
+.answer,
+.ingest-result {
+  margin-top: 1rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  margin-right: 0.4rem;
+  text-transform: uppercase;
+}
+
+.badge.graph_traversal {
+  background: #14532d;
+  color: #bbf7d0;
+}
+
+.badge.fallback_text_search {
+  background: #713f12;
+  color: #fde68a;
+}
+
+.badge.insufficient {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.chip {
+  font-size: 0.8rem;
+  background: #262626;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.graph-panel {
+  position: sticky;
+  top: 1rem;
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.graph-canvas {
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.node-details {
+  margin-top: 1rem;
+  border-top: 1px solid #333;
+  padding-top: 0.75rem;
+}
+
+.node-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.85rem;
+}
